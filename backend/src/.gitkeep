@@ -1,0 +1,8 @@
+# Backend source code
+# - index.js (or Program.cs for .NET)
+# - routes/
+# - models/
+# - controllers/
+# - middleware/
+# - utils/
+
