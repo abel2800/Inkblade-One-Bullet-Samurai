@@ -163,7 +163,11 @@ namespace Inkblade.Weapons
             OnStuck?.Invoke(this);
 
             // Spawn impact effect
-            if (impactEffect != null)
+            if (Systems.ParticleManager.Instance != null)
+            {
+                Systems.ParticleManager.Instance.SpawnImpactEffect(transform.position);
+            }
+            else if (impactEffect != null)
             {
                 Instantiate(impactEffect, transform.position, Quaternion.identity);
             }

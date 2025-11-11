@@ -193,10 +193,17 @@ namespace Inkblade.Player
 
             Vector2 shootDirection = (mouseWorldPos - bulletSpawnPoint.position).normalized;
 
-            // This will be handled by BulletManager
-            // For now, we'll just set the state
-            _hasBullet = false;
-            OnBulletStateChanged?.Invoke(_hasBullet);
+            // Use BulletManager to spawn bullet
+            if (Weapons.BulletManager.Instance != null)
+            {
+                Weapons.BulletManager.Instance.ShootBullet(bulletSpawnPoint.position, shootDirection);
+                _hasBullet = false;
+                OnBulletStateChanged?.Invoke(_hasBullet);
+            }
+            else
+            {
+                Debug.LogWarning("PlayerController: BulletManager instance not found!");
+            }
         }
 
         private void TryRetrieveBullet()

@@ -223,6 +223,14 @@ namespace Inkblade.Enemies
         {
             ChangeState(EnemyState.Dead);
             OnDeath?.Invoke();
+
+            // Trigger slow motion and camera shake on kill
+            if (Systems.GameManager.Instance != null)
+            {
+                Systems.GameManager.Instance.TriggerSlowMotion(0.2f, 0.15f);
+                Systems.GameManager.Instance.TriggerCameraShake(0.15f, 0.2f);
+            }
+
             Destroy(gameObject, 2f); // Destroy after death animation
         }
 

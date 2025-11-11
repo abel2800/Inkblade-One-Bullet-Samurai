@@ -18,6 +18,7 @@ namespace Inkblade.Systems
         [SerializeField] private PlayerController player;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private EnemySpawner enemySpawner;
+        [SerializeField] private CameraController cameraController;
 
         private bool _isPaused = false;
         private bool _isGameOver = false;
@@ -83,6 +84,11 @@ namespace Inkblade.Systems
             if (enemySpawner == null)
             {
                 enemySpawner = FindObjectOfType<EnemySpawner>();
+            }
+
+            if (cameraController == null)
+            {
+                cameraController = FindObjectOfType<CameraController>();
             }
 
             // Subscribe to events
@@ -172,11 +178,31 @@ namespace Inkblade.Systems
             StartCoroutine(SlowMotionCoroutine());
         }
 
+        public void TriggerSlowMotion(float customScale, float customDuration)
+        {
+            StartCoroutine(SlowMotionCoroutine(customScale, customDuration));
+        }
+
         private System.Collections.IEnumerator SlowMotionCoroutine()
         {
             Time.timeScale = slowMotionScale;
             yield return new WaitForSecondsRealtime(slowMotionDuration);
             Time.timeScale = 1f;
+        }
+
+        private System.Collections.IEnumerator SlowMotionCoroutine(float customScale, float customDuration)
+        {
+            Time.timeScale = customScale;
+            yield return new WaitForSecondsRealtime(customDuration);
+            Time.timeScale = 1f;
+        }
+
+        public void TriggerCameraShake(float intensity = 0.1f, float duration = 0.2f)
+        {
+            if (cameraController != null)
+            {
+                cameraController.Shake(intensity, duration);
+            }
         }
 
         private void HandlePlayerDeath()

@@ -31,6 +31,12 @@ namespace Inkblade.Enemies
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnDamageTaken?.Invoke();
 
+            // Spawn hit effect
+            if (Systems.ParticleManager.Instance != null)
+            {
+                Systems.ParticleManager.Instance.SpawnHitEffect(transform.position);
+            }
+
             if (_currentHealth <= 0)
             {
                 Die();
@@ -46,6 +52,13 @@ namespace Inkblade.Enemies
         private void Die()
         {
             OnDeath?.Invoke();
+            
+            // Spawn death particle effect
+            if (Systems.ParticleManager.Instance != null)
+            {
+                Systems.ParticleManager.Instance.SpawnDeathEffect(transform.position);
+            }
+
             Invoke(nameof(HandleDeath), deathDelay);
         }
 
