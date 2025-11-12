@@ -1,76 +1,76 @@
 # Backend API
 
-Optional backend implementation for INKBLADE: ONE BULLET SAMURAI.
+Backend API for INKBLADE: ONE BULLET SAMURAI.
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### 1. Create Database (Manual)
 
-- Node.js 18+ (or .NET 7+ for ASP.NET Core)
-- PostgreSQL 14+
-- Docker (optional, for containerized setup)
+Create the PostgreSQL database:
 
-### Installation
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-# Edit .env with your configuration
+```sql
+CREATE DATABASE inkblade_db;
 ```
 
-### Running Locally
+### 2. Configure Environment
+
+The `.env` file is already created with:
+- Database: inkblade_db
+- User: postgres
+- Password: 1992
+- Host: localhost
+- Port: 5432
+
+### 3. Test Connection
 
 ```bash
-# Development mode
-npm run dev
-
-# Production mode
-npm start
+npm run test-db
 ```
 
-### Using Docker
+### 4. Run Migrations (Create Tables Automatically)
 
 ```bash
-docker-compose up -d
-```
-
-## 📚 Documentation
-
-See [docs/api.md](../docs/api.md) for complete API documentation.
-
-## 🗄️ Database Setup
-
-```bash
-# Create database
-createdb inkblade_db
-
-# Run migrations
 npm run migrate
 ```
 
-## 🧪 Testing
+This will automatically create:
+- users table
+- scores table
+- analytics table
+- All indexes and relationships
+
+### 5. Start Server
 
 ```bash
-# Run tests
-npm test
-
-# Run with coverage
-npm run test:coverage
+npm run dev
 ```
 
-## 📝 Environment Variables
+Server runs on: http://localhost:3000
 
-See `.env.example` for required environment variables.
+## 📋 API Endpoints
 
-## 🏗️ Architecture
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+- `POST /api/score` - Submit score
+- `GET /api/leaderboard` - Get leaderboard
+- `GET /api/stats/user/:userId` - Get user stats
+- `POST /api/analytics` - Submit analytics
+- `GET /api/health` - Health check
 
-- **Framework:** Express.js (or ASP.NET Core)
-- **Database:** PostgreSQL
-- **Authentication:** JWT
-- **Validation:** Joi (or FluentValidation)
+## 📚 Documentation
 
-## 📦 Deployment
+- [API Documentation](../docs/api.md)
+- [Backend Setup](../docs/BACKEND_SETUP.md)
+- [Quick Database Setup](QUICK_DATABASE_SETUP.md)
 
-See deployment instructions in [docs/api.md](../docs/api.md).
+## 🔧 Scripts
 
+- `npm start` - Start production server
+- `npm run dev` - Start development server (auto-reload)
+- `npm run migrate` - Run database migrations
+- `npm run test-db` - Test database connection
+- `npm test` - Run tests
+
+---
+
+**Database Password:** 1992 (configured in .env)
