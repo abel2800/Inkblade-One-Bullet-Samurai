@@ -32,7 +32,7 @@
 
 1. **Unity & Unity Hub**
    - Install Unity Hub
-   - Install latest LTS Unity version
+   - Install latest LTS Unity version (2022.3+ recommended)
    - Add modules: Windows Build Support (IL2CPP), WebGL Build Support (optional)
 
 2. **Visual Studio Community / Visual Studio Code**
@@ -44,23 +44,19 @@
    git lfs install
    ```
 
-4. **Node.js & npm** (for backend)
+4. **Node.js & npm** (for backend, optional)
    ```bash
    node --version
    npm --version
-   ```
-
-5. **Docker** (for local backend)
-   ```bash
-   docker --version
    ```
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/inkblade-one-bullet-samurai.git
-   cd inkblade-one-bullet-samurai
+   git clone https://github.com/abel2800/Inkblade-One-Bullet-Samurai.git
+   cd Inkblade-One-Bullet-Samurai
+   git lfs pull
    ```
 
 2. **Open in Unity**
@@ -68,8 +64,18 @@
    - Click "Add" and select the project folder
    - Unity will import assets (first time may take a few minutes)
 
-3. **Run the game**
-   - Open `Assets/Scenes/MainMenu.unity`
+3. **Automated Setup** (Recommended)
+   - Once Unity is open, go to menu: `Inkblade > Setup Project`
+   - Click "Setup All" to configure tags, layers, and physics
+   - Go to menu: `Inkblade > Create Prefabs`
+   - Click "Create All Prefabs" to create Player, Bullet, and Enemy prefabs
+
+4. **Create Scenes**
+   - Follow the guide in `docs/UNITY_SETUP_GUIDE.md`
+   - Or see `QUICK_START.md` for quick instructions
+
+5. **Run the game**
+   - Open your Level_Play scene
    - Press Play in Unity Editor
 
 ### Building
@@ -117,11 +123,13 @@ inkblade-one-bullet-samurai/
 
 ## 🎯 Development Roadmap
 
-- [x] **Epic 1**: Core Game Loop (Player + Bullet + Enemies)
-- [ ] **Epic 2**: Level & UI
-- [ ] **Epic 3**: Polish & Quality
-- [ ] **Epic 4**: Backend (Optional)
-- [ ] **Epic 5**: Documentation & GitHub
+- [x] **Epic 1**: Core Game Loop (Player + Bullet + Enemies) ✅
+- [x] **Epic 2**: Level & UI ✅
+- [x] **Epic 3**: Polish & Quality ✅
+- [x] **Epic 4**: Backend (Optional) ✅
+- [x] **Epic 5**: Documentation & GitHub ✅
+
+**Status:** Code Complete (~95%) | Unity Setup Pending
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
 
@@ -148,14 +156,28 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 
 ## 📧 Contact
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@abel2800](https://github.com/abel2800)
+- Repository: [Inkblade-One-Bullet-Samurai](https://github.com/abel2800/Inkblade-One-Bullet-Samurai)
 
 ## 🎬 Demo
 
-[Link to WebGL demo](https://yourusername.github.io/inkblade-one-bullet-samurai/)
+**Coming Soon!** Builds will be available in [Releases](https://github.com/abel2800/Inkblade-One-Bullet-Samurai/releases)
 
-[Download Windows Build](https://github.com/yourusername/inkblade-one-bullet-samurai/releases)
+## 🛠️ Development Tools
+
+### Automated Setup
+- **Menu:** `Inkblade > Setup Project` - Sets up tags, layers, physics
+- **Menu:** `Inkblade > Create Prefabs` - Creates all game prefabs
+
+### Build Scripts
+- **Windows:** `scripts/build-windows.bat`
+- **WebGL:** `scripts/build-webgl.sh`
+
+### Backend Setup
+- **Windows:** `scripts/setup-backend.bat`
+- **Mac/Linux:** `scripts/setup-backend.sh`
+
+See [QUICK_START.md](QUICK_START.md) for more details.
 
 ---
 
