@@ -1,4 +1,5 @@
 // Test database connection script
+require('dotenv').config();
 const { query } = require('../src/config/database');
 
 async function testConnection() {

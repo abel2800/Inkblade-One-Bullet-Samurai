@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { query } = require('../src/config/database');
 
 async function migrate() {
