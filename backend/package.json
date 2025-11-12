@@ -8,7 +8,8 @@
     "dev": "nodemon src/index.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "migrate": "node scripts/migrate.js"
+    "migrate": "node scripts/migrate.js",
+    "test-db": "node scripts/test-connection.js"
   },
   "keywords": [
     "game",
