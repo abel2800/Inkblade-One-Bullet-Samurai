@@ -27,8 +27,8 @@ async function testConnection() {
     console.log('');
     console.log('Please check:');
     console.log('1. PostgreSQL is running');
-    console.log('2. Database "inkblade_db" exists');
-    console.log('3. Password is correct (1992)');
+    console.log('2. Database "game" exists');
+    console.log('3. Password is correct');
     console.log('4. User "postgres" has access');
     process.exit(1);
   }

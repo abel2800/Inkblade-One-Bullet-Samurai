@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using Inkblade.Utils;
 
 namespace Inkblade.Editor
 {
@@ -49,8 +50,14 @@ namespace Inkblade.Editor
 
         private static void SetupTags()
         {
-            // Define tags
-            string[] tags = { "Player", "Enemy", "Bullet", "Wall", "Ground" };
+            // Define tags using Constants
+            string[] tags = { 
+                Constants.TAG_PLAYER, 
+                Constants.TAG_ENEMY, 
+                Constants.TAG_BULLET, 
+                Constants.TAG_WALL, 
+                Constants.TAG_GROUND 
+            };
 
             foreach (string tag in tags)
             {
@@ -75,14 +82,14 @@ namespace Inkblade.Editor
 
         private static void SetupLayers()
         {
-            // Define layers (starting from layer 8 to avoid conflicts)
+            // Define layers (starting from layer 8 to avoid conflicts) using Constants
             var layers = new System.Collections.Generic.Dictionary<string, int>
             {
-                { "Player", 8 },
-                { "Enemy", 9 },
-                { "Bullet", 10 },
-                { "Wall", 11 },
-                { "Ground", 12 }
+                { Constants.LAYER_PLAYER, 8 },
+                { Constants.LAYER_ENEMY, 9 },
+                { Constants.LAYER_BULLET, 10 },
+                { Constants.LAYER_WALL, 11 },
+                { Constants.LAYER_GROUND, 12 }
             };
 
             SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
@@ -107,11 +114,11 @@ namespace Inkblade.Editor
             // Bullet can collide with Enemy, Wall, Ground
             // Enemy can collide with Player, Wall, Ground
 
-            int playerLayer = LayerMask.NameToLayer("Player");
-            int enemyLayer = LayerMask.NameToLayer("Enemy");
-            int bulletLayer = LayerMask.NameToLayer("Bullet");
-            int wallLayer = LayerMask.NameToLayer("Wall");
-            int groundLayer = LayerMask.NameToLayer("Ground");
+            int playerLayer = LayerMask.NameToLayer(Constants.LAYER_PLAYER);
+            int enemyLayer = LayerMask.NameToLayer(Constants.LAYER_ENEMY);
+            int bulletLayer = LayerMask.NameToLayer(Constants.LAYER_BULLET);
+            int wallLayer = LayerMask.NameToLayer(Constants.LAYER_WALL);
+            int groundLayer = LayerMask.NameToLayer(Constants.LAYER_GROUND);
 
             // Player collisions
             Physics2D.IgnoreLayerCollision(playerLayer, playerLayer, true);

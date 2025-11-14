@@ -181,9 +181,14 @@ namespace Inkblade.Weapons
 
         private void DestroyBullet()
         {
-            // Return to pool or destroy
-            // For now, just destroy
-            Destroy(gameObject);
+            // BulletManager handles returning to pool via OnRetrieved event
+            // This method is called when bullet is retrieved or lifetime expires
+            // The actual pooling is handled by BulletManager.OnBulletRetrieved
+            if (BulletManager.Instance == null)
+            {
+                // Fallback: destroy if no manager
+                Destroy(gameObject);
+            }
         }
 
         private bool IsStickableLayer(int layer)

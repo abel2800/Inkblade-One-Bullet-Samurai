@@ -52,6 +52,12 @@ namespace Inkblade.Player
             _currentHealth = Mathf.Max(0, _currentHealth - damage);
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnDamageTaken?.Invoke();
+            
+            // Play hit sound
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayPlayerHitSound();
+            }
 
             if (_currentHealth <= 0)
             {
@@ -79,6 +85,13 @@ namespace Inkblade.Player
         private void Die()
         {
             OnDeath?.Invoke();
+            
+            // Play death sound
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayPlayerDeathSound();
+            }
+            
             // Death logic will be handled by GameManager
             Invoke(nameof(HandleDeath), deathDelay);
         }
@@ -97,6 +110,12 @@ namespace Inkblade.Player
             _invulnerabilityTimer = 0f;
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             gameObject.SetActive(true);
+        }
+
+        private void OnDestroy()
+        {
+            // Cancel any pending Invoke calls
+            CancelInvoke();
         }
 
         // Getters

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Inkblade.Utils;
 
 namespace Inkblade.Systems
 {
@@ -7,8 +8,6 @@ namespace Inkblade.Systems
     /// </summary>
     public class SaveManager : MonoBehaviour
     {
-        private const string HIGH_SCORE_KEY = "HighScore";
-        private const string LEVEL_PROGRESS_KEY = "LevelProgress";
         private const string SETTINGS_KEY_PREFIX = "Settings_";
 
         // Singleton
@@ -19,6 +18,7 @@ namespace Inkblade.Systems
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -32,14 +32,14 @@ namespace Inkblade.Systems
             int currentHighScore = GetHighScore();
             if (score > currentHighScore)
             {
-                PlayerPrefs.SetInt(HIGH_SCORE_KEY, score);
+                PlayerPrefs.SetInt(Constants.PREF_HIGH_SCORE, score);
                 PlayerPrefs.Save();
             }
         }
 
         public int GetHighScore()
         {
-            return PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
+            return PlayerPrefs.GetInt(Constants.PREF_HIGH_SCORE, 0);
         }
 
         // Level Progress
@@ -48,14 +48,14 @@ namespace Inkblade.Systems
             int currentProgress = GetLevelProgress();
             if (level > currentProgress)
             {
-                PlayerPrefs.SetInt(LEVEL_PROGRESS_KEY, level);
+                PlayerPrefs.SetInt(Constants.PREF_LEVEL_PROGRESS, level);
                 PlayerPrefs.Save();
             }
         }
 
         public int GetLevelProgress()
         {
-            return PlayerPrefs.GetInt(LEVEL_PROGRESS_KEY, 0);
+            return PlayerPrefs.GetInt(Constants.PREF_LEVEL_PROGRESS, 0);
         }
 
         // Settings
@@ -102,13 +102,13 @@ namespace Inkblade.Systems
         // Clear specific data
         public void ClearHighScore()
         {
-            PlayerPrefs.DeleteKey(HIGH_SCORE_KEY);
+            PlayerPrefs.DeleteKey(Constants.PREF_HIGH_SCORE);
             PlayerPrefs.Save();
         }
 
         public void ClearLevelProgress()
         {
-            PlayerPrefs.DeleteKey(LEVEL_PROGRESS_KEY);
+            PlayerPrefs.DeleteKey(Constants.PREF_LEVEL_PROGRESS);
             PlayerPrefs.Save();
         }
     }

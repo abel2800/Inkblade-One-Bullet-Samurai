@@ -3,6 +3,7 @@ using UnityEditor;
 using Inkblade.Player;
 using Inkblade.Weapons;
 using Inkblade.Enemies;
+using Inkblade.Utils;
 
 namespace Inkblade.Editor
 {
@@ -70,8 +71,8 @@ namespace Inkblade.Editor
             col.radius = 0.5f;
 
             // Set tag and layer
-            player.tag = "Player";
-            player.layer = LayerMask.NameToLayer("Player");
+            player.tag = Constants.TAG_PLAYER;
+            player.layer = LayerMask.NameToLayer(Constants.LAYER_PLAYER);
 
             // Create bullet spawn point
             GameObject spawnPoint = new GameObject("BulletSpawnPoint");
@@ -108,8 +109,8 @@ namespace Inkblade.Editor
             col.isTrigger = true;
 
             // Set tag and layer
-            bullet.tag = "Bullet";
-            bullet.layer = LayerMask.NameToLayer("Bullet");
+            bullet.tag = Constants.TAG_BULLET;
+            bullet.layer = LayerMask.NameToLayer(Constants.LAYER_BULLET);
 
             // Save as prefab
             string path = "Assets/Prefabs/Bullet.prefab";
@@ -141,8 +142,8 @@ namespace Inkblade.Editor
             col.radius = 0.4f;
 
             // Set tag and layer
-            enemy.tag = "Enemy";
-            enemy.layer = LayerMask.NameToLayer("Enemy");
+            enemy.tag = Constants.TAG_ENEMY;
+            enemy.layer = LayerMask.NameToLayer(Constants.LAYER_ENEMY);
 
             // Save as prefab
             string path = "Assets/Prefabs/Enemy_Basic.prefab";

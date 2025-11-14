@@ -127,12 +127,25 @@ namespace Inkblade.Enemies
 
         private void OnEnemyDeath(GameObject enemy)
         {
-            _activeEnemies.Remove(enemy);
+            if (enemy != null)
+            {
+                _activeEnemies.Remove(enemy);
+            }
         }
 
         public void StopSpawning()
         {
             _isSpawning = false;
+            if (_spawnCoroutine != null)
+            {
+                StopCoroutine(_spawnCoroutine);
+                _spawnCoroutine = null;
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            // Clean up coroutine
             if (_spawnCoroutine != null)
             {
                 StopCoroutine(_spawnCoroutine);

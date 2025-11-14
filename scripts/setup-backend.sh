@@ -45,13 +45,11 @@ echo ""
 
 # Check if .env exists
 if [ ! -f ".env" ]; then
-    echo "Creating .env file from .env.example..."
-    cp .env.example .env
-    echo ""
-    echo "⚠️  Please edit .env file with your configuration:"
-    echo "   - Database credentials"
-    echo "   - JWT secret"
-    echo "   - Other settings"
+    echo ".env file not found!"
+    echo "Please create .env file with your configuration:"
+    echo "   - Database credentials (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)"
+    echo "   - JWT secret (JWT_SECRET)"
+    echo "   - See backend/README.md for details"
     echo ""
 else
     echo ".env file already exists"
@@ -63,7 +61,7 @@ if command -v psql &> /dev/null; then
     echo "PostgreSQL is installed"
     echo ""
     echo "To set up the database:"
-    echo "  1. Create database: createdb inkblade_db"
+    echo "  1. Create database: createdb game"
     echo "  2. Run migrations: npm run migrate"
     echo ""
 else

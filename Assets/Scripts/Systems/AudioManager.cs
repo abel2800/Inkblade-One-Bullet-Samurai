@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Inkblade.Utils;
 
 namespace Inkblade.Systems
 {
@@ -42,6 +43,7 @@ namespace Inkblade.Systems
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
                 InitializeAudioSources();
                 LoadVolumeSettings();
             }
@@ -201,17 +203,17 @@ namespace Inkblade.Systems
 
         private void LoadVolumeSettings()
         {
-            masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-            musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
-            sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            masterVolume = PlayerPrefs.GetFloat(Constants.PREF_MASTER_VOLUME, 1f);
+            musicVolume = PlayerPrefs.GetFloat(Constants.PREF_MUSIC_VOLUME, 0.7f);
+            sfxVolume = PlayerPrefs.GetFloat(Constants.PREF_SFX_VOLUME, 1f);
             UpdateVolumes();
         }
 
         private void SaveVolumeSettings()
         {
-            PlayerPrefs.SetFloat("MasterVolume", masterVolume);
-            PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-            PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_MASTER_VOLUME, masterVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_MUSIC_VOLUME, musicVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_SFX_VOLUME, sfxVolume);
             PlayerPrefs.Save();
         }
 

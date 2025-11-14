@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Inkblade.Systems;
 
 namespace Inkblade.UI
 {
@@ -68,8 +69,47 @@ namespace Inkblade.UI
 
         private void ShowLeaderboard()
         {
-            // TODO: Implement leaderboard display
-            Debug.Log("Leaderboard not yet implemented");
+            // Fetch and display leaderboard
+            if (LeaderboardManager.Instance != null)
+            {
+                LeaderboardManager.Instance.FetchLeaderboard();
+                LeaderboardManager.Instance.OnLeaderboardUpdated += OnLeaderboardFetched;
+                Debug.Log("Fetching leaderboard...");
+            }
+            else
+            {
+                Debug.LogWarning("LeaderboardManager not found. Leaderboard feature requires backend connection.");
+            }
+        }
+        
+        private void OnLeaderboardFetched(System.Collections.Generic.List<LeaderboardManager.LeaderboardEntry> entries)
+        {
+            LeaderboardManager.Instance.OnLeaderboardUpdated -= OnLeaderboardFetched;
+            
+            if (entries == null || entries.Count == 0)
+            {
+                Debug.Log("No leaderboard entries found.");
+                return;
+            }
+            
+            Debug.Log($"=== LEADERBOARD ({entries.Count} entries) ===");
+            foreach (var entry in entries)
+            {
+                Debug.Log($"#{entry.rank}: {entry.username} - {entry.score} points");
+            }
+            Debug.Log("================================");
+            
+            // Note: In a full implementation, this would display in a UI panel
+            // For now, we log to console. UI panel can be added later.
+        }
+        
+        private void OnDestroy()
+        {
+            // Clean up event subscription
+            if (LeaderboardManager.Instance != null)
+            {
+                LeaderboardManager.Instance.OnLeaderboardUpdated -= OnLeaderboardFetched;
+            }
         }
 
         private void QuitGame()

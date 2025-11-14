@@ -121,6 +121,8 @@ namespace Inkblade.Weapons
 
         private void OnBulletRetrieved(Bullet bullet)
         {
+            if (bullet == null) return;
+            
             if (_playerController != null)
             {
                 _playerController.OnBulletRetrieved();
@@ -141,7 +143,7 @@ namespace Inkblade.Weapons
         public void ShootBullet(Vector2 spawnPosition, Vector2 direction)
         {
             GameObject bullet = SpawnBullet(spawnPosition, direction);
-            if (_playerController != null)
+            if (_playerController != null && bullet != null)
             {
                 _playerController.OnBulletShot(bullet);
             }

@@ -14,6 +14,8 @@ namespace Inkblade.Systems
         [SerializeField] private float slowMotionScale = 0.3f;
         [SerializeField] private float slowMotionDuration = 0.2f;
 
+        private Coroutine _slowMotionCoroutine;
+
         [Header("References")]
         [SerializeField] private PlayerController player;
         [SerializeField] private PlayerHealth playerHealth;
@@ -24,6 +26,7 @@ namespace Inkblade.Systems
         private bool _isGameOver = false;
         private float _gameTime = 0f;
         private int _score = 0;
+        private int _enemiesKilled = 0;
 
         // Events
         public System.Action<bool> OnPauseChanged;
@@ -119,6 +122,7 @@ namespace Inkblade.Systems
             _isPaused = false;
             _gameTime = 0f;
             _score = 0;
+            _enemiesKilled = 0;
             Time.timeScale = 1f;
 
             OnGameStart?.Invoke();
@@ -156,15 +160,76 @@ namespace Inkblade.Systems
 
             _isGameOver = true;
             Time.timeScale = 1f; // Reset time scale
+            
+            // Submit score to leaderboard if authenticated
+            if (LeaderboardManager.Instance != null && AuthManager.Instance != null && AuthManager.Instance.IsAuthenticated)
+            {
+                LeaderboardManager.Instance.SubmitScore(
+                    _score,
+                    levelId: 1,
+                    timeElapsed: _gameTime,
+                    enemiesKilled: _enemiesKilled,
+                    deaths: 1
+                );
+            }
+            
+            // Save high score locally
+            if (SaveManager.Instance != null)
+            {
+                SaveManager.Instance.SaveHighScore(_score);
+            }
+            
             OnGameOver?.Invoke();
         }
 
         public void RestartGame()
         {
+            // Clean up before restart
+            Cleanup();
+            
             // Reload scene or reset game state
             UnityEngine.SceneManagement.SceneManager.LoadScene(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
             );
+        }
+        
+        private void Cleanup()
+        {
+            // Stop any running coroutines
+            if (_slowMotionCoroutine != null)
+            {
+                StopCoroutine(_slowMotionCoroutine);
+                _slowMotionCoroutine = null;
+            }
+            
+            // Clear all bullets
+            if (Weapons.BulletManager.Instance != null)
+            {
+                Weapons.BulletManager.Instance.ClearAllBullets();
+            }
+            
+            // Clear all enemies
+            if (enemySpawner != null)
+            {
+                enemySpawner.ClearAllEnemies();
+            }
+            
+            // Reset time scale
+            Time.timeScale = 1f;
+        }
+        
+        private void OnDestroy()
+        {
+            // Unsubscribe from events
+            if (playerHealth != null)
+            {
+                playerHealth.OnDeath -= HandlePlayerDeath;
+            }
+            
+            if (enemySpawner != null)
+            {
+                enemySpawner.OnWaveCompleted -= OnWaveCompleted;
+            }
         }
 
         public void AddScore(int points)
@@ -175,19 +240,18 @@ namespace Inkblade.Systems
 
         public void TriggerSlowMotion()
         {
-            StartCoroutine(SlowMotionCoroutine());
+            TriggerSlowMotion(slowMotionScale, slowMotionDuration);
         }
 
         public void TriggerSlowMotion(float customScale, float customDuration)
         {
-            StartCoroutine(SlowMotionCoroutine(customScale, customDuration));
-        }
-
-        private System.Collections.IEnumerator SlowMotionCoroutine()
-        {
-            Time.timeScale = slowMotionScale;
-            yield return new WaitForSecondsRealtime(slowMotionDuration);
-            Time.timeScale = 1f;
+            // Stop any existing slow motion coroutine
+            if (_slowMotionCoroutine != null)
+            {
+                StopCoroutine(_slowMotionCoroutine);
+            }
+            
+            _slowMotionCoroutine = StartCoroutine(SlowMotionCoroutine(customScale, customDuration));
         }
 
         private System.Collections.IEnumerator SlowMotionCoroutine(float customScale, float customDuration)
@@ -195,6 +259,7 @@ namespace Inkblade.Systems
             Time.timeScale = customScale;
             yield return new WaitForSecondsRealtime(customDuration);
             Time.timeScale = 1f;
+            _slowMotionCoroutine = null;
         }
 
         public void TriggerCameraShake(float intensity = 0.1f, float duration = 0.2f)
@@ -215,6 +280,17 @@ namespace Inkblade.Systems
             // Add score for completing wave
             AddScore(waveNumber * 100);
         }
+
+        public void OnEnemyKilled()
+        {
+            _enemiesKilled++;
+        }
+
+        // Setters for editor/initialization
+        public void SetPlayer(PlayerController p) => player = p;
+        public void SetPlayerHealth(PlayerHealth h) => playerHealth = h;
+        public void SetEnemySpawner(EnemySpawner s) => enemySpawner = s;
+        public void SetCameraController(CameraController c) => cameraController = c;
 
         // Getters
         public bool IsPaused => _isPaused;

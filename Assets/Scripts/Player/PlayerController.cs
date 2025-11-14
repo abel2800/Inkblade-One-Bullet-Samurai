@@ -41,6 +41,7 @@ namespace Inkblade.Player
         private bool _isDashing = false;
         private float _dashCooldownTimer = 0f;
         private bool _isInvulnerable = false;
+        private Coroutine _dashCoroutine;
 
         // Bullet
         private bool _hasBullet = true;
@@ -128,9 +129,22 @@ namespace Inkblade.Player
             _isInvulnerable = dashInvulnerable;
 
             Vector2 dashDirection = _moveInput.magnitude > 0.1f ? _moveInput.normalized : Vector2.right;
-            StartCoroutine(DashCoroutine(dashDirection));
+            
+            // Stop any existing dash coroutine (safety check)
+            if (_dashCoroutine != null)
+            {
+                StopCoroutine(_dashCoroutine);
+            }
+            
+            _dashCoroutine = StartCoroutine(DashCoroutine(dashDirection));
 
             OnDashUsed?.Invoke();
+            
+            // Play dash sound
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayDashSound();
+            }
         }
 
         private System.Collections.IEnumerator DashCoroutine(Vector2 direction)
@@ -167,6 +181,16 @@ namespace Inkblade.Player
             }
 
             _dashCooldownTimer = dashCooldown;
+            _dashCoroutine = null;
+        }
+        
+        private void OnDestroy()
+        {
+            // Clean up dash coroutine
+            if (_dashCoroutine != null)
+            {
+                StopCoroutine(_dashCoroutine);
+            }
         }
 
         private void UpdateDashCooldown()
@@ -199,6 +223,12 @@ namespace Inkblade.Player
                 Weapons.BulletManager.Instance.ShootBullet(bulletSpawnPoint.position, shootDirection);
                 _hasBullet = false;
                 OnBulletStateChanged?.Invoke(_hasBullet);
+                
+                // Play shoot sound
+                if (Systems.AudioManager.Instance != null)
+                {
+                    Systems.AudioManager.Instance.PlayShootSound();
+                }
             }
             else
             {
@@ -229,11 +259,26 @@ namespace Inkblade.Player
             _hasBullet = true;
             _activeBullet = null;
             OnBulletStateChanged?.Invoke(_hasBullet);
-
-            // Destroy or return bullet to pool
-            if (bullet != null)
+            
+            // Play retrieve sound
+            if (Systems.AudioManager.Instance != null)
             {
-                Destroy(bullet);
+                Systems.AudioManager.Instance.PlayRetrieveSound();
+            }
+
+            // Return bullet to pool via BulletManager
+            var bulletScript = bullet.GetComponent<Weapons.Bullet>();
+            if (bulletScript != null && bulletScript.IsRetrievable)
+            {
+                bulletScript.Retrieve();
+            }
+            else
+            {
+                // Fallback: manually return to pool
+                if (Weapons.BulletManager.Instance != null)
+                {
+                    Weapons.BulletManager.Instance.ClearAllBullets();
+                }
             }
         }
 

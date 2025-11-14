@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Inkblade.Player;
 using Inkblade.Systems;
+using Inkblade.Enemies;
 
 namespace Inkblade.UI
 {
@@ -35,6 +36,7 @@ namespace Inkblade.UI
         [SerializeField] private PlayerController player;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private GameManager gameManager;
+        [SerializeField] private EnemySpawner enemySpawner;
 
         private void Awake()
         {
@@ -52,6 +54,11 @@ namespace Inkblade.UI
             if (gameManager == null)
             {
                 gameManager = GameManager.Instance;
+            }
+
+            if (enemySpawner == null)
+            {
+                enemySpawner = FindObjectOfType<EnemySpawner>();
             }
         }
 
@@ -78,6 +85,11 @@ namespace Inkblade.UI
             {
                 gameManager.OnScoreChanged += UpdateScore;
                 gameManager.OnGameTimeChanged += UpdateTime;
+            }
+
+            if (enemySpawner != null)
+            {
+                enemySpawner.OnWaveStarted += UpdateWave;
             }
         }
 
@@ -185,6 +197,11 @@ namespace Inkblade.UI
                 UpdateScore(gameManager.Score);
                 UpdateTime(gameManager.GameTime);
             }
+
+            if (enemySpawner != null)
+            {
+                UpdateWave(enemySpawner.CurrentWave);
+            }
         }
 
         private void OnDestroy()
@@ -204,6 +221,11 @@ namespace Inkblade.UI
             {
                 gameManager.OnScoreChanged -= UpdateScore;
                 gameManager.OnGameTimeChanged -= UpdateTime;
+            }
+
+            if (enemySpawner != null)
+            {
+                enemySpawner.OnWaveStarted -= UpdateWave;
             }
         }
     }

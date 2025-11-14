@@ -1,4 +1,5 @@
 using UnityEngine;
+using Inkblade.Utils;
 
 namespace Inkblade.Enemies
 {
@@ -181,6 +182,12 @@ namespace Inkblade.Enemies
             {
                 playerHealth.TakeDamage(attackDamage);
             }
+            
+            // Play attack sound (using enemy hit sound as attack sound)
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayEnemyHitSound();
+            }
 
             _attackCooldownTimer = attackCooldown;
         }
@@ -229,6 +236,10 @@ namespace Inkblade.Enemies
             {
                 Systems.GameManager.Instance.TriggerSlowMotion(0.2f, 0.15f);
                 Systems.GameManager.Instance.TriggerCameraShake(0.15f, 0.2f);
+                // Add score for killing enemy
+                Systems.GameManager.Instance.AddScore(50);
+                // Track enemy kill
+                Systems.GameManager.Instance.OnEnemyKilled();
             }
 
             Destroy(gameObject, 2f); // Destroy after death animation
@@ -236,10 +247,14 @@ namespace Inkblade.Enemies
 
         private void FindPlayer()
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
+            // Cache player reference to avoid repeated Find calls
+            if (_player == null)
             {
-                _player = playerObj.transform;
+                GameObject playerObj = GameObject.FindGameObjectWithTag(Constants.TAG_PLAYER);
+                if (playerObj != null)
+                {
+                    _player = playerObj.transform;
+                }
             }
         }
 

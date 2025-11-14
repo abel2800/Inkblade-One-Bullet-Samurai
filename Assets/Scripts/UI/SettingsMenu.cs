@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Inkblade.Systems;
+using Inkblade.Utils;
 
 namespace Inkblade.UI
 {
@@ -56,9 +57,9 @@ namespace Inkblade.UI
             else
             {
                 // Load from PlayerPrefs as fallback
-                _masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-                _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
-                _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+                _masterVolume = PlayerPrefs.GetFloat(Constants.PREF_MASTER_VOLUME, 1f);
+                _musicVolume = PlayerPrefs.GetFloat(Constants.PREF_MUSIC_VOLUME, 0.7f);
+                _sfxVolume = PlayerPrefs.GetFloat(Constants.PREF_SFX_VOLUME, 1f);
             }
         }
 
@@ -169,9 +170,9 @@ namespace Inkblade.UI
             }
 
             // Save to PlayerPrefs
-            PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
-            PlayerPrefs.SetFloat("MusicVolume", _musicVolume);
-            PlayerPrefs.SetFloat("SFXVolume", _sfxVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_MASTER_VOLUME, _masterVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_MUSIC_VOLUME, _musicVolume);
+            PlayerPrefs.SetFloat(Constants.PREF_SFX_VOLUME, _sfxVolume);
             PlayerPrefs.Save();
         }
 

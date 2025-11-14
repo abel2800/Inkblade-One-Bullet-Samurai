@@ -42,7 +42,13 @@ namespace Inkblade.Systems
         /// </summary>
         public void SubmitScore(int score, int levelId = 1, float timeElapsed = 0f, int enemiesKilled = 0, int deaths = 0)
         {
-            if (APIClient.Instance == null || !AuthManager.Instance.IsAuthenticated)
+            if (APIClient.Instance == null)
+            {
+                OnSubmitError?.Invoke("API client not initialized");
+                return;
+            }
+            
+            if (AuthManager.Instance == null || !AuthManager.Instance.IsAuthenticated)
             {
                 OnSubmitError?.Invoke("Not authenticated");
                 return;
@@ -113,8 +119,15 @@ namespace Inkblade.Systems
         /// </summary>
         public void FetchBestScore(int levelId = 1)
         {
-            if (APIClient.Instance == null || !AuthManager.Instance.IsAuthenticated)
+            if (APIClient.Instance == null)
             {
+                Debug.LogWarning("LeaderboardManager: API client not initialized");
+                return;
+            }
+            
+            if (AuthManager.Instance == null || !AuthManager.Instance.IsAuthenticated)
+            {
+                Debug.LogWarning("LeaderboardManager: Not authenticated");
                 return;
             }
 

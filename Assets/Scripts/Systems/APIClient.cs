@@ -59,6 +59,12 @@ namespace Inkblade.Systems
         /// </summary>
         public void Get(string endpoint, System.Action<string> onSuccess, System.Action<string> onError = null)
         {
+            if (string.IsNullOrEmpty(endpoint))
+            {
+                onError?.Invoke("Endpoint cannot be null or empty");
+                return;
+            }
+            
             StartCoroutine(RequestCoroutine("GET", endpoint, null, onSuccess, onError));
         }
 
@@ -67,6 +73,12 @@ namespace Inkblade.Systems
         /// </summary>
         public void Post(string endpoint, object data, System.Action<string> onSuccess, System.Action<string> onError = null)
         {
+            if (string.IsNullOrEmpty(endpoint))
+            {
+                onError?.Invoke("Endpoint cannot be null or empty");
+                return;
+            }
+            
             StartCoroutine(RequestCoroutine("POST", endpoint, data, onSuccess, onError));
         }
 

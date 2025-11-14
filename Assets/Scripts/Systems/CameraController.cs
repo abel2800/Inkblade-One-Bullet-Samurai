@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Inkblade.Utils;
 
 namespace Inkblade.Systems
 {
@@ -47,7 +48,7 @@ namespace Inkblade.Systems
             // Find target if not assigned
             if (target == null)
             {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                GameObject player = GameObject.FindGameObjectWithTag(Constants.TAG_PLAYER);
                 if (player != null)
                 {
                     target = player.transform;

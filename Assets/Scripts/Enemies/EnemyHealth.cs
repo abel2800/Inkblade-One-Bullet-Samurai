@@ -36,6 +36,12 @@ namespace Inkblade.Enemies
             {
                 Systems.ParticleManager.Instance.SpawnHitEffect(transform.position);
             }
+            
+            // Play hit sound
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayEnemyHitSound();
+            }
 
             if (_currentHealth <= 0)
             {
@@ -58,6 +64,12 @@ namespace Inkblade.Enemies
             {
                 Systems.ParticleManager.Instance.SpawnDeathEffect(transform.position);
             }
+            
+            // Play death sound
+            if (Systems.AudioManager.Instance != null)
+            {
+                Systems.AudioManager.Instance.PlayEnemyDeathSound();
+            }
 
             Invoke(nameof(HandleDeath), deathDelay);
         }
@@ -66,6 +78,12 @@ namespace Inkblade.Enemies
         {
             // Death logic handled by EnemyAI
             // This component just triggers the event
+        }
+
+        private void OnDestroy()
+        {
+            // Cancel any pending Invoke calls
+            CancelInvoke();
         }
 
         // Getters

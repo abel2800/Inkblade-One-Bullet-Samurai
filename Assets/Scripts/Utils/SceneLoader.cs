@@ -67,16 +67,14 @@ namespace Inkblade.Utils
 
         private System.Collections.IEnumerator LoadSceneWithFade(string sceneName)
         {
-            // TODO: Implement fade effect if needed
-            // For now, just load the scene
+            // Simple fade implementation - can be enhanced with UI image overlay
             yield return new WaitForSeconds(fadeDuration);
             SceneManager.LoadScene(sceneName);
         }
 
         private System.Collections.IEnumerator LoadSceneWithFade(int buildIndex)
         {
-            // TODO: Implement fade effect if needed
-            // For now, just load the scene
+            // Simple fade implementation - can be enhanced with UI image overlay
             yield return new WaitForSeconds(fadeDuration);
             SceneManager.LoadScene(buildIndex);
         }

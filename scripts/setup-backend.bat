@@ -49,13 +49,11 @@ echo.
 
 REM Check if .env exists
 if not exist ".env" (
-    echo Creating .env file from .env.example...
-    copy .env.example .env
-    echo.
-    echo Please edit .env file with your configuration:
-    echo    - Database credentials
-    echo    - JWT secret
-    echo    - Other settings
+    echo .env file not found!
+    echo Please create .env file with your configuration:
+    echo    - Database credentials (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)
+    echo    - JWT secret (JWT_SECRET)
+    echo    - See backend/README.md for details
     echo.
 ) else (
     echo .env file already exists

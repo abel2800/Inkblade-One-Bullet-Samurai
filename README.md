@@ -70,11 +70,7 @@
    - Go to menu: `Inkblade > Create Prefabs`
    - Click "Create All Prefabs" to create Player, Bullet, and Enemy prefabs
 
-4. **Create Scenes**
-   - Follow the guide in `docs/UNITY_SETUP_GUIDE.md`
-   - Or see `QUICK_START.md` for quick instructions
-
-5. **Run the game**
+4. **Run the game**
    - Open your Level_Play scene
    - Press Play in Unity Editor
 
@@ -108,11 +104,6 @@ inkblade-one-bullet-samurai/
 │   ├── Scenes/               # Unity scenes
 │   ├── Art/                  # Sprites, textures, animations
 │   └── Audio/                # SFX and music
-├── Docs/                     # Documentation
-│   ├── setup.md             # Detailed setup instructions
-│   ├── architecture.md      # System architecture
-│   ├── api.md               # Backend API documentation
-│   └── art-pipeline.md      # Art creation process
 ├── Builds/                   # Compiled game builds
 ├── backend/                  # Optional backend code (if implemented)
 │   ├── src/
@@ -129,16 +120,7 @@ inkblade-one-bullet-samurai/
 - [x] **Epic 4**: Backend (Optional) ✅
 - [x] **Epic 5**: Documentation & GitHub ✅
 
-**Status:** Code Complete (~95%) | Unity Setup Pending
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
-
-## 📖 Documentation
-
-- [Setup Guide](docs/setup.md) - Detailed installation and configuration
-- [Architecture](docs/architecture.md) - System design and technical specs
-- [API Documentation](docs/api.md) - Backend API endpoints (if implemented)
-- [Art Pipeline](docs/art-pipeline.md) - Asset creation process
+**Status:** Code Complete (100%) | Unity Setup Pending
 
 ## 🎨 Art Credits
 
@@ -152,7 +134,7 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please open an issue or pull request.
 
 ## 📧 Contact
 
@@ -176,8 +158,7 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 ### Backend Setup
 - **Windows:** `scripts/setup-backend.bat`
 - **Mac/Linux:** `scripts/setup-backend.sh`
-
-See [QUICK_START.md](QUICK_START.md) for more details.
+- See `backend/README.md` for backend setup details
 
 ---
 

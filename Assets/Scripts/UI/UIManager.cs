@@ -146,6 +146,17 @@ namespace Inkblade.UI
             }
         }
 
+        private void OnDestroy()
+        {
+            // Unsubscribe from events
+            if (_gameManager != null)
+            {
+                _gameManager.OnPauseChanged -= HandlePauseChanged;
+                _gameManager.OnGameOver -= HandleGameOver;
+                _gameManager.OnGameStart -= HandleGameStart;
+            }
+        }
+
         // Getters
         public HUD HUD => hud;
     }

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Inkblade.Systems;
+using Inkblade.Enemies;
 
 namespace Inkblade.UI
 {
@@ -24,12 +25,14 @@ namespace Inkblade.UI
         private UIManager _uiManager;
         private GameManager _gameManager;
         private SaveManager _saveManager;
+        private EnemySpawner _enemySpawner;
 
         private void Awake()
         {
             _uiManager = FindObjectOfType<UIManager>();
             _gameManager = GameManager.Instance;
             _saveManager = SaveManager.Instance;
+            _enemySpawner = FindObjectOfType<EnemySpawner>();
         }
 
         private void Start()
@@ -97,11 +100,15 @@ namespace Inkblade.UI
                 timeSurvivedText.text = $"Time Survived: {minutes:00}:{seconds:00}";
             }
 
-            // Update wave reached (if available)
+            // Update wave reached
             if (waveReachedText != null)
             {
-                // TODO: Get wave number from EnemySpawner or GameManager
-                waveReachedText.text = "Wave: --";
+                int waveNumber = 0;
+                if (_enemySpawner != null)
+                {
+                    waveNumber = _enemySpawner.CurrentWave;
+                }
+                waveReachedText.text = $"Wave Reached: {waveNumber}";
             }
         }
 
